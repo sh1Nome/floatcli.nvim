@@ -2,6 +2,8 @@
 
 A Neovim plugin for running arbitrary CLI tools in a floating window.
 
+![demo](demo.gif)
+
 ## Installation
 
 Use your favorite package manager.
