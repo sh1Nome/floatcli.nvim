@@ -1,0 +1,88 @@
+*floatcli.txt*  A Neovim plugin for running arbitrary CLI tools in a floating window
+
+==============================================================================
+CONTENTS                                                     *floatcli-contents*
+
+1. Introduction                                          |floatcli-introduction|
+2. Installation                                          |floatcli-installation|
+3. Setup                                                      |floatcli-setup|
+4. Usage                                                      |floatcli-usage|
+5. Configuration                                      |floatcli-configuration|
+6. License                                                  |floatcli-license|
+
+==============================================================================
+INTRODUCTION                                           *floatcli-introduction*
+
+floatcli.nvim is a Neovim plugin for running arbitrary CLI tools in a
+floating window.
+
+==============================================================================
+INSTALLATION                                           *floatcli-installation*
+
+Use your favorite package manager.
+
+==============================================================================
+SETUP                                                       *floatcli-setup*
+
+Basic setup:
+>lua
+  require('floatcli').setup({
+    width = 80,           -- Window width (percentage, default: 80)
+    height = 80,          -- Window height (percentage, default: 80)
+    border = 'rounded',   -- Border style (default: 'single')
+  })
+<
+
+==============================================================================
+USAGE                                                       *floatcli-usage*
+
+Run a single command:
+>lua
+  require('floatcli').open({
+    commands = { 'lazygit' },
+  })
+<
+
+Run multiple commands sequentially:
+>lua
+  require('floatcli').open({
+    commands = { 'echo "Running tests"', 'npm test' },
+  })
+<
+
+Control auto-close behavior:
+>lua
+  require('floatcli').open({
+    commands = { 'npm test' },
+    auto_close = false,  -- Manually close with Enter
+  })
+<
+
+==============================================================================
+CONFIGURATION                                       *floatcli-configuration*
+
+The following options are available:
+
+width                                                      *floatcli-width*
+  Float window width as percentage of screen width (default: 80)
+
+height                                                    *floatcli-height*
+  Float window height as percentage of screen height (default: 80)
+
+border                                                    *floatcli-border*
+  Border style. Valid values:
+    - 'single'
+    - 'double'
+    - 'rounded'
+    - 'solid'
+    - 'shadow'
+    - 'none'
+  Default: 'single'
+
+==============================================================================
+LICENSE                                                  *floatcli-license*
+
+MIT License
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
