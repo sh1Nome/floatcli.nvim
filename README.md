@@ -2,7 +2,7 @@
 
 A Neovim plugin for running arbitrary CLI tools in a floating window.
 
-![demo](demo.gif)
+![demo](./demo/demo.gif)
 
 ## Installation
 
