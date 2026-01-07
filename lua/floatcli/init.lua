@@ -85,9 +85,4 @@ function M.open(opts)
 	end
 end
 
---- フロートウィンドウを閉じてクリーンアップ
-function M.close()
-	cleanup()
-end
-
 return M
