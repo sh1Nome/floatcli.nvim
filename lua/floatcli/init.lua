@@ -1,3 +1,18 @@
+--- *floatcli*  A Neovim plugin for running arbitrary CLI tools in a floating window
+---
+--- MIT License Copyright (c) 2025 sh1Nome
+---
+---@toc
+
+--- floatcli.nvim is a Neovim plugin for running arbitrary CLI tools in a
+--- floating window.
+---@tag floatcli-introduction
+---@toc_entry Introduction
+
+--- Use your favorite package manager.
+---@tag floatcli-installation
+---@toc_entry Installation
+
 -- floatcli.nvim メインモジュール
 
 local M = {}
@@ -28,16 +43,43 @@ local function cleanup()
 	end
 end
 
---- ユーザー設定を初期化
----@param opts? table オプション設定（width, height, border）
+--- Initialize user configuration
+---
+---@param opts? table Configuration options
+---   - width: number Float window width as percentage of screen width (default: 80)
+---   - height: number Float window height as percentage of screen height (default: 80)
+---   - border: string Border style. Valid values:
+---     'single', 'double', 'rounded', 'solid', 'shadow', 'none' (default: 'single')
+---@tag floatcli-api-setup
+---@toc_entry setup()
 function M.setup(opts)
 	config.setup(opts)
 end
 
---- フロートウィンドウでコマンドを実行
----@param opts table 実行オプション
----@param opts.commands string[] 実行するコマンド配列
----@param opts.auto_close? boolean コマンド終了時に自動で閉じるか（デフォルト: true）
+--- Execute commands in a float window
+---
+---@param opts table Execution options
+---   - commands: string[] Array of commands to execute
+---   - auto_close?: boolean Automatically close the window when commands finish (default: true)
+---
+---@usage
+--- -- Run a single command:
+--- require('floatcli').open({
+---   commands = { 'lazygit' },
+--- })
+---
+--- -- Run multiple commands sequentially:
+--- require('floatcli').open({
+---   commands = { 'echo "Running tests"', 'npm test' },
+--- })
+---
+--- -- Control auto-close behavior:
+--- require('floatcli').open({
+--- commands = { 'npm test' },
+---   auto_close = false,  -- Manually close with Enter
+--- })
+---@tag floatcli-api-open
+---@toc_entry open()
 function M.open(opts)
 	opts = opts or {}
 	local commands = opts.commands
