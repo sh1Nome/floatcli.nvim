@@ -19,8 +19,6 @@ function M.execute(commands, bufnr, auto_close, on_exit)
 	-- バッファで terminal を実行
 	vim.api.nvim_buf_call(bufnr, function()
 		vim.cmd.terminal(cmd_string)
-		-- terminal実行後、インサートモードに変更
-		vim.cmd("startinsert")
 		-- バッファ一覧に表示しない
 		vim.api.nvim_set_option_value("buflisted", false, { buf = bufnr })
 	end)
@@ -33,6 +31,14 @@ function M.execute(commands, bufnr, auto_close, on_exit)
 			callback = on_exit,
 		})
 	end
+end
+
+--- バッファをフォーカスしてインサートモードに変更
+---@param bufnr number バッファID（必須、有効であることを前提）
+function M.focus(bufnr)
+	vim.api.nvim_buf_call(bufnr, function()
+		vim.cmd("startinsert")
+	end)
 end
 
 return M

@@ -90,8 +90,11 @@ function M.open(opts)
 		return
 	end
 
+	-- バッファが新規かどうかを判定
+	local is_new_buffer = not state.buf_id or not vim.api.nvim_buf_is_valid(state.buf_id)
+
 	-- バッファが無い or 無効な場合は新規作成
-	if not state.buf_id or not vim.api.nvim_buf_is_valid(state.buf_id) then
+	if is_new_buffer then
 		state.buf_id = vim.api.nvim_create_buf(false, true)
 	end
 
@@ -100,31 +103,37 @@ function M.open(opts)
 		state.win_id = window.create(state.buf_id)
 	end
 
-	-- autocommand グループを作成（重複登録を防ぐ）
-	vim.api.nvim_create_augroup("floatcli", { clear = true })
+	-- 新規バッファの場合のみ初期化処理を実行
+	if is_new_buffer then
+		-- autocommand グループを作成
+		vim.api.nvim_create_augroup("floatcli", { clear = true })
 
-	-- 画面リサイズ時にウィンドウをリサイズ
-	vim.api.nvim_create_autocmd("VimResized", {
-		group = "floatcli",
-		callback = function()
-			if state.win_id and vim.api.nvim_win_is_valid(state.win_id) then
-				window.resize(state.win_id)
-			end
-		end,
-	})
+		-- 画面リサイズ時にウィンドウをリサイズ
+		vim.api.nvim_create_autocmd("VimResized", {
+			group = "floatcli",
+			callback = function()
+				if state.win_id and vim.api.nvim_win_is_valid(state.win_id) then
+					window.resize(state.win_id)
+				end
+			end,
+		})
 
-	-- コマンドを実行
-	executor.execute(commands, state.buf_id, auto_close, function()
-		-- コマンド終了時のコールバック（auto_close == true の場合）
-		cleanup()
-	end)
-
-	-- auto_close が無効な場合は、Enter キーでマニュアル閉じ
-	if not auto_close and state.buf_id and vim.api.nvim_buf_is_valid(state.buf_id) then
-		vim.keymap.set("n", "<CR>", function()
+		-- コマンドを実行
+		executor.execute(commands, state.buf_id, auto_close, function()
+			-- コマンド終了時のコールバック（auto_close == true の場合）
 			cleanup()
-		end, { buffer = state.buf_id, noremap = true, silent = true })
+		end)
+
+		-- auto_close が無効な場合は、Enter キーでマニュアル閉じ
+		if not auto_close then
+			vim.keymap.set("n", "<CR>", function()
+				cleanup()
+			end, { buffer = state.buf_id, noremap = true, silent = true })
+		end
 	end
+
+	-- 毎回インサートモードに変更
+	executor.focus(state.buf_id)
 end
 
 return M

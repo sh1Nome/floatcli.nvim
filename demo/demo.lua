@@ -1,6 +1,7 @@
 -- バックアップファイルとスワップファイルを無効化
 vim.opt.backup = false
 vim.opt.swapfile = false
+vim.opt.shellcmdflag = "-c"
 
 -- このファイルから相対的にプラグインディレクトリ(親の親)を解決してランタイムパスに追加
 local plugin_dir = vim.fn.fnamemodify(vim.fn.expand("<sfile>"), ":h:h")
