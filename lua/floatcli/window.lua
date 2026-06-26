@@ -3,11 +3,13 @@
 local M = {}
 local config = require("floatcli.config")
 
--- ウィンドウの幅・高さ・位置を計算して画面中央に配置
+-- ウィンドウの幅・高さ・位置を計算
 local function calculate_geometry()
 	local width_percent = config.get("width")
 	local height_percent = config.get("height")
 	local border = config.get("border")
+	local row_percent = config.get("row")
+	local col_percent = config.get("col")
 
 	-- 画面サイズを取得
 	local ui = vim.api.nvim_list_uis()[1]
@@ -18,14 +20,22 @@ local function calculate_geometry()
 	local width = math.floor(screen_width * width_percent / 100)
 	local height = math.floor(screen_height * height_percent / 100)
 
-	-- 画面中央に配置するための座標を計算
-	local col = math.floor((screen_width - width) / 2)
-	local row = math.floor((screen_height - height) / 2)
+	local col, row
+	if col_percent ~= nil then
+		col = math.floor(screen_width * col_percent / 100)
+	else
+		col = math.floor((screen_width - width) / 2)
+	end
 
-	-- ボーダーがある場合は位置を微調整
+	if row_percent ~= nil then
+		row = math.floor(screen_height * row_percent / 100)
+	else
+		row = math.floor((screen_height - height) / 2)
+	end
+
 	if border and border ~= "none" then
-		col = col - 1
-		row = row - 1
+		col = math.max(0, col - 1)
+		row = math.max(0, row - 1)
 	end
 
 	return { width = width, height = height, col = col, row = row }

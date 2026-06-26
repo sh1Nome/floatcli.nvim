@@ -5,6 +5,8 @@ local M = {}
 local defaults = {
 	width = 80, -- 画面幅に対するパーセンテージ（デフォルト: 80%）
 	height = 80, -- 画面高さに対するパーセンテージ（デフォルト: 80%）
+	row = nil,
+	col = nil,
 	border = "single",
 }
 
@@ -14,6 +16,8 @@ local config = {}
 ---@param opts? table 設定オプション
 ---@param opts.width? number フロートウィンドウの幅（パーセンテージ、デフォルト: 80）
 ---@param opts.height? number フロートウィンドウの高さ（パーセンテージ、デフォルト: 80）
+---@param opts.row? number 上端位置（画面高さに対するパーセンテージ、デフォルト: nil = 中央）
+---@param opts.col? number 左端位置（画面幅に対するパーセンテージ、デフォルト: nil = 中央）
 ---@param opts.border? string ボーダースタイル（デフォルト: 'single'）
 ---@return table 結合された設定
 function M.setup(opts)

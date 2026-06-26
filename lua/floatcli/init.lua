@@ -48,6 +48,8 @@ end
 ---@param opts? table Configuration options
 ---   - width: number Float window width as percentage of screen width (default: 80)
 ---   - height: number Float window height as percentage of screen height (default: 80)
+---   - row: number|nil Top edge position as percentage of screen height (default: nil = centered)
+---   - col: number|nil Left edge position as percentage of screen width (default: nil = centered)
 ---   - border: string Border style. Valid values:
 ---     'single', 'double', 'rounded', 'solid', 'shadow', 'none' (default: 'single')
 ---@tag floatcli-api-setup
