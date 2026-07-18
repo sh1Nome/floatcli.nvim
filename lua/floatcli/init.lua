@@ -38,7 +38,7 @@ local function cleanup()
 		state.buf_id = nil
 	end
 
-	if vim.fn.exists("augroup floatcli") == 1 then
+	if vim.fn.exists("#floatcli") == 1 then
 		vim.api.nvim_del_augroup_by_name("floatcli")
 	end
 end
